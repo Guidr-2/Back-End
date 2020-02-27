@@ -159,6 +159,11 @@ Code: 200 (OK)
         "trip_type": "Bike Touring"
     }
     
+Code: 401 (Unauthorized)
+{
+   "message": "Unauthorized access"
+}
+    
 Code: 500 (Internal Server Error)
 {
    "message": "Internal Server Error, Error Returned: <error>"
