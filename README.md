@@ -287,23 +287,44 @@ Code: 500 (Internal Server Error)
 }
 ```
 
+## Post New Profile (Protected)
+**HTTP Method:** *POST*
 
+**URL:** */profiles*
 
+Adds a new profile to the database.  **Note: you cannot add a user_id that does not exist due to foriegn key constraints nor can you add a profile from with a user_id that already exists in the database, a user can only have 1 profile.**
 
+### Example
 
+```
+{
+     "user_id": 6,
+     "title": "Thru-hiking Obsessionist",
+     "tagline": "I am in love with the woods",
+     "guide_specialty": "All things wilderness",
+     "age": 48,
+     "years_experience": 25,
+     "avatar_url": null
+}
+ ```
 
-
-
-
-
-
-
-
-
-
-
-
-
+### Responses
+```
+Code: 200 (OK)
+{
+   6
+}
+    
+Code: 401 (Unauthorized)
+{
+   "message": "Unauthorized access"
+}
+    
+Code: 500 (Internal Server Error)
+{
+   "message": "Internal Server Error, Error Returned: <error>"
+}
+```
 
 ## Get all Trips (Protected)
 **HTTP Method:** *GET*
@@ -407,6 +428,47 @@ Code: 200 (OK)
         "trip_type": "Backpacking",
         "user_id": 1
     }
+    
+Code: 401 (Unauthorized)
+{
+   "message": "Unauthorized access"
+}
+    
+Code: 500 (Internal Server Error)
+{
+   "message": "Internal Server Error, Error Returned: <error>"
+}
+```
+
+## Post New Trip (Protected)
+**HTTP Method:** *POST*
+
+**URL:** */trips*
+
+Adds a new trip to the database.  **Note: you cannot add a user_id that does not exist due to foriegn key constraints (Note this is not functional yet).**
+
+### Example
+
+```
+{
+    "title": "Appalachain trail hike in Pennsylvania",
+    "description": "We will pick a random spot on the AT in Pennsylvania and start hiking!",
+    "is_private": 1,
+    "is_professional": 0,
+    "duration": "3 days",
+    "distance": "30 miles",
+    "date": "2020-06-25 08:00:00:000",
+    "trip_type": "Backpacking",
+    "user_id": 1
+}
+```
+
+### Responses
+```
+Code: 200 (OK)
+{
+   6
+}
     
 Code: 401 (Unauthorized)
 {
