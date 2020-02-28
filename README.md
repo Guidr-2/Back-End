@@ -1,12 +1,16 @@
 # Guidr Back-End
 
-| Method | Description                           | Endpoint         |
-| ------ | ------------------------------------- | ---------------- |
-| POST   | Create a user account                 | /auth/register   |
-| POST   | Login a user                          | /auth/login      |
-| GET    | Gets a user, proile and all trip data | /users/:id       |
+| Method | Description                           | Endpoint           |
+| ------ | ------------------------------------- | ------------------ |
+| POST   | Create a user account                 | /auth/register     |
+| POST   | Login a user                          | /auth/login        |
+| GET    | Gets a user, proile and all trip data | /users/:id         |
+| GET    | Gets a users profile by id            | /users/profiles:id |
+| GET    | Gets all profiles                     | /profiles          |
+| GET    | Gets a profile by a profile ID        | profiles:id        |
 
-#### Base URL: https://guidr1.herokuapp.com/api/
+
+#### Base URL: https://guidr-2.herokuapp.com/api/
 
 #### Seeded users
 ```
@@ -19,6 +23,41 @@
 "username": "klock",
 "password": "klock"
 ```
+
+## Table Layouts
+### Users Table
+| Key      | Type    | Required                |
+| -------- | ------- | ----------------------- |
+| id       | integer | Yes (server controlled) |
+| username | string  | Yes                     |
+| password | string  | Yes                     |
+
+### Profiles Table
+| Key              | Type            | Required                |
+| ---------------- | --------------  | ----------------------- |
+| id               | integer         | Yes (server controlled) |
+| user_id          | integer         | Yes                     |
+| profile_title    | string          | Yes                     |
+| tagline          | string          | Yes                     |
+| guide_specialty  | string          | Yes                     |
+| age              | integer         | Yes                     |
+| years_experience | integer         | Yes                     |
+| avatar_url       | text            | No                      |
+
+### Trips Table
+| Key              | Type            | Required                |
+| ---------------- | --------------  | ----------------------- |
+| id               | integer         | Yes (server controlled) |
+| user_id          | integer         | Yes                     |
+| trip_title       | text            | Yes                     |
+| description      | text            | Yes                     |
+| is_private       | integer(0/1)    | Yes                     |
+| is_professional  | integer(0/1)    | Yes                     |
+| duration         | text            | Yes                     |
+| distance         | text            | Yes                     |
+| date             | text            | Yes                     |
+| trip_type        | text            | Yes                     |
+
 
 ## Register (Non-protected)
 **HTTP Method:** *POST*
@@ -40,15 +79,7 @@ In order to decode the token, you need to install jwt-decode https://github.com/
 npm i jwt-decode
 ```
 
-### Register Table
-
-| Key      | Type   | Required |
-| -------- | ------ | -------- |
-| username | string | Yes      |
-| password | string | Yes      |
-
 ### Example
-
 ```
 {
    "username": "jsmith",
@@ -71,17 +102,11 @@ Code: 500 (Internal Server Error)
 ```
 
 ## Login (Non-protected)
-This logs in a user, it will return the 202 message below with a token, this token needs to be stored in Local Storage.  The token contains the following data
-
 **HTTP Method:** *POST*
 
 **URL:** */auth/login*
-### Login Table
 
-| Key      | Type   | Required |
-| -------- | ------ | -------- |
-| username | string | Yes      |
-| password | string | Yes      |
+This logs in a user, it will return the 202 message below with a token, this token needs to be stored in Local Storage.  The token contains the following data
 
 ### Example
 ```
@@ -117,26 +142,9 @@ Code: 500 (Internal Server Error)
 
 This gets a specific user and returns the user, profile and all trip data, each trip (1 user can have multiple trips) will have profile data and username attached it in case it is needed.
 
-### Get User Table
+### Example
 
-| Key              | Type            | Required |
-| ---------------- | --------------  | -------- |
-| username         | string          | Yes      |
-| profile_title    | string          | Yes      |
-| tagline          | string          | Yes      |
-| guide_specialty  | string          | Yes      |
-| age              | integer         | Yes      |
-| years_experience | integer         | Yes      |
-| avatar_url       | text            | No       |
-| trip_title       | text            | Yes      |
-| description      | text            | Yes      |
-| is_private       | integer(0/1)    | Yes      |
-| is_professional  | integer(0/1)    | Yes      |
-| duration         | text            | Yes      |
-| distance         | text            | Yes      |
-| date             | text            | Yes      |
-| trip_type        | text            | Yes      |
-
+None
 
 ### Responses
 ```
@@ -157,6 +165,114 @@ Code: 200 (OK)
         "distance": "90 miles",
         "date": "2020-06-01 08:00:00:000",
         "trip_type": "Bike Touring"
+    }
+    
+Code: 401 (Unauthorized)
+{
+   "message": "Unauthorized access"
+}
+    
+Code: 500 (Internal Server Error)
+{
+   "message": "Internal Server Error, Error Returned: <error>"
+}
+```
+
+## Get all Profiles (Protected)
+**HTTP Method:** *GET*
+
+**URL:** */profiles*
+
+This returns all profiles
+
+### Example
+
+None
+
+### Responses
+```
+Code: 200 (OK)
+    {
+        "id": 1,
+        "user_id": 1,
+        "title": "Thru-hiking Expert",
+        "tagline": "I am happiest in the wilderness",
+        "guide_specialty": "Backpacking",
+        "age": 43,
+        "years_experience": 6,
+        "avatar_url": null
+    }
+    
+Code: 401 (Unauthorized)
+{
+   "message": "Unauthorized access"
+}
+    
+Code: 500 (Internal Server Error)
+{
+   "message": "Internal Server Error, Error Returned: <error>"
+}
+```
+
+## Get a Profile by Profile ID (Protected)
+**HTTP Method:** *GET*
+
+**URL:** */profiles/:id*
+
+This returns a profile by profile ID
+
+### Example
+
+None
+
+### Responses
+```
+Code: 200 (OK)
+    {
+        "id": 1,
+        "user_id": 1,
+        "title": "Thru-hiking Expert",
+        "tagline": "I am happiest in the wilderness",
+        "guide_specialty": "Backpacking",
+        "age": 43,
+        "years_experience": 6,
+        "avatar_url": null
+    }
+    
+Code: 401 (Unauthorized)
+{
+   "message": "Unauthorized access"
+}
+    
+Code: 500 (Internal Server Error)
+{
+   "message": "Internal Server Error, Error Returned: <error>"
+}
+```
+
+## Get a Specific Users Profile (Protected)
+**HTTP Method:** *GET*
+
+**URL:** */users/profiles/:id*
+
+This returns a the user's profile by user id
+
+### Example
+
+None
+
+### Responses
+```
+Code: 200 (OK)
+    {
+        "id": 1,
+        "user_id": 1,
+        "title": "Thru-hiking Expert",
+        "tagline": "I am happiest in the wilderness",
+        "guide_specialty": "Backpacking",
+        "age": 43,
+        "years_experience": 6,
+        "avatar_url": null
     }
     
 Code: 401 (Unauthorized)
