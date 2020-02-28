@@ -10,7 +10,8 @@
 | GET    | Gets a profile by a profile ID        | profiles:id        |
 
 
-#### Base URL: https://guidr-2.herokuapp.com/api/
+#### Base URL for Code: https://guidr-2.herokuapp.com/api/
+#### Verify Server is Running: https://guidr-2.herokuapp.com/
 
 #### Seeded users
 ```
