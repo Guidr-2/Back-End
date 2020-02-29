@@ -184,6 +184,79 @@ Code: 500 (Internal Server Error)
 }
 ```
 
+## Delete User (Protected)
+**HTTP Method:** *DELETE*
+
+**URL:** */users/:id*
+
+This deletes the user and all associated data (profiles and trips).
+
+### Example
+
+None
+
+### Responses
+```
+Code: 200 (OK)
+{
+    "removed": 1
+}
+    
+Code: 401 (Unauthorized)
+{
+   "message": "Unauthorized access"
+}
+
+Code: 404 (Not found)
+{
+    "message": "Could not find user with given id"
+}
+    
+Code: 500 (Internal Server Error)
+{
+   "message": "Internal Server Error, Error Returned: <error>"
+}
+```
+
+## Get Public Profile (Non-protected)
+**HTTP Method:** *GET*
+
+**URL:** */profiles/public/:id*
+
+Gets a profile of a specific user that is a non-protected router for guest accounts. It is the responsibility of the front-end to populate the web url (public_url) of the user's public profile
+
+### Example
+
+None
+
+### Responses
+```
+Code: 200 (OK)
+ {
+        "id": 1,
+        "username": "nathansl2003",
+        "profile_title": "Thru-hiking Expert",
+        "tagline": "I am happiest in the wilderness",
+        "guide_specialty": "Backpacking",
+        "age": 43,
+        "years_experience": 6,
+        "avatar_url": null,
+        "trips_title": "7 Long Trail Section Hike",
+        "description": "Hike from the Appalachian approach trail where the Long Trail southern terminus is for a 7 day adventure",
+        "is_private": 1,
+        "is_professional": 0,
+        "duration": "7 days",
+        "distance": "70 miles",
+        "date": "2020-06-01 08:00:00:000",
+        "trip_type": "Backpacking"
+}
+    
+Code: 500 (Internal Server Error)
+{
+   "message": "Internal Server Error, Error Returned: <error>"
+}
+```
+
 ## Get all Profiles (Protected)
 **HTTP Method:** *GET*
 
