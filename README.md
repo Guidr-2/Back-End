@@ -232,24 +232,17 @@ None
 ### Responses
 ```
 Code: 200 (OK)
- {
-        "id": 1,
-        "username": "nathansl2003",
-        "profile_title": "Thru-hiking Expert",
-        "tagline": "I am happiest in the wilderness",
-        "guide_specialty": "Backpacking",
-        "age": 43,
-        "years_experience": 6,
+{
+        "id": 3,
+        "user_id": 3,
+        "title": "Packrafting With the Best",
+        "tagline": "Water is my home",
+        "guide_specialty": "Packrafting",
+        "age": 34,
+        "years_experience": 15,
         "avatar_url": null,
-        "trips_title": "7 Long Trail Section Hike",
-        "description": "Hike from the Appalachian approach trail where the Long Trail southern terminus is for a 7 day adventure",
-        "is_private": 1,
-        "is_professional": 0,
-        "duration": "7 days",
-        "distance": "70 miles",
-        "date": "2020-06-01 08:00:00:000",
-        "trip_type": "Backpacking"
-}
+        "public_url": "/public/3"
+    }
     
 Code: 500 (Internal Server Error)
 {
