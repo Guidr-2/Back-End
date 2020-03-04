@@ -4,6 +4,8 @@
 | ------ | ------------------------------------- | ------------------ |
 | POST   | Create a user account                 | /auth/register     |
 | POST   | Login a user                          | /auth/login        |
+| POST   | Adds a profile                        | /profiles          |
+| POST   | Adds a trip                           | /trips             |
 | GET    | Gets a user, proile and all trip data | /users/:id         |
 | GET    | Gets a users profile by id            | /users/profiles:id |
 | GET    | Gets all profiles                     | /profiles          |
