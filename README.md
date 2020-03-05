@@ -43,7 +43,7 @@
 | ---------------- | --------------  | ----------------------- |
 | id               | integer         | Yes (server controlled) |
 | user_id          | integer         | Yes                     |
-| profile_title    | string          | Yes                     |
+| title            | string          | Yes                     |
 | tagline          | string          | Yes                     |
 | guide_specialty  | string          | Yes                     |
 | age              | integer         | Yes                     |
@@ -56,7 +56,7 @@
 | ---------------- | --------------  | ----------------------- |
 | id               | integer         | Yes (server controlled) |
 | user_id          | integer         | Yes                     |
-| trip_title       | text            | Yes                     |
+| title            | text            | Yes                     |
 | description      | text            | Yes                     |
 | is_private       | integer(0/1)    | Yes                     |
 | is_professional  | integer(0/1)    | Yes                     |
