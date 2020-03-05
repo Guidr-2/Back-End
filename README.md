@@ -1,18 +1,25 @@
 # Guidr Back-End
 
-| Method | Description                           | Endpoint           |
-| ------ | ------------------------------------- | ------------------ |
-| POST   | Create a user account                 | /auth/register     |
-| POST   | Login a user                          | /auth/login        |
-| POST   | Adds a profile                        | /profiles          |
-| POST   | Adds a trip                           | /trips             |
-| GET    | Gets a user, proile and all trip data | /users/:id         |
-| GET    | Gets a users profile by id            | /users/profiles:id |
-| GET    | Gets all profiles                     | /profiles          |
-| GET    | Gets a profile by a profile ID        | /profiles/:id      |
-| PUT    | Edits/Updates a profile               | /profiles/:id      |
-| PUT    | Edits/Updates a trip                  | /trips/:id         |
-| DELETE | Deletes a trip                        | /trips/:id         |
+| Method | Description                           | Endpoint             |
+| ------ | ------------------------------------- | -------------------- |
+| POST   | Create a user account                 | /auth/register       |
+| POST   | Login a user                          | /auth/login          |
+| POST   | Adds a profile                        | /profiles            |
+| POST   | Adds a trip                           | /trips               |
+| GET    | All Users                             | /users               |
+| GET    | Gets a specific user                  | /users/:id           |
+| GET    | Gets a user, profile and trip data    | /users/data/:id      |
+| GET    | Gets a users trips by user id         | /users/trips/:id     |
+| GET    | Gets a users profile by user id       | /users/profiles/:id  |
+| GET    | Gets all profiles                     | /profiles            |
+| GET    | Gets a profile by a profile ID        | /profiles/:id        |
+| GET    | Gets a public profile by a user ID    | /profiles/public/:id |
+| GET    | Gets all trips                        | /trips               |
+| GET    | Gets a trip by a trip ID              | /trips/:id           |
+| PUT    | Edits/Updates a profile               | /profiles/:id        |
+| PUT    | Edits/Updates a trip                  | /trips/:id           |
+| DELETE | Deletes a user and all user content   | /users/:id           |
+| DELETE | Deletes a trip                        | /trips/:id           |
 
 
 #### Base URL: https://guidr-2.herokuapp.com/api/
@@ -29,6 +36,27 @@
 "username": "klock",
 "password": "klock"
 ```
+
+**Update 3/5/2020**
+
+One of the developers on my other team found a bug in the /api/users/:id that returns the user, profile and trip data.  There can only be 1 user and 1 profile, but many or no trips assigned to the user.  If there are many trips, it returns multiple objects with redundent information in multiple objects, so if there are 2 trips it will return the user and profile information twice, one for each trip.  **The bug get introduced when there is not a profile created or a trip created the /api/users/:id will return an empty dataset.** I can make it return data with NULLs but it might be hard for you get the data out of the objects.  
+I am making the following changes:
+
+New Route- /api/users/data/:id - this will return the data just like I mentioned above with NULLs
+
+Modified Route - /api/users/id - this will just return the id and username of the user
+
+**Suggested Action**
+
+Instead of using the /api/users/data/:Id use the user's id and do the following:
+
+/api/users/:id
+
+/api/users/profiles/:id
+
+/api/users/trips/:id
+
+This is 3 calls that will get you everything on a specific user
 
 ## Table Layouts
 ### Users Table
@@ -142,12 +170,72 @@ Code: 500 (Internal Server Error)
 }
 ```
 
-## Get User (Protected)
+## Get All Users (Protected)
+**HTTP Method:** *GET*
+
+**URL:** */users/*
+
+Gets all users in the database.
+
+### Example
+
+None
+
+### Responses
+```
+Code: 200 (OK)
+ {
+     "id": 1,
+     "username": "nathansl2003"
+ }
+    
+Code: 401 (Unauthorized)
+ {
+    "message": "Unauthorized access"
+ }
+    
+Code: 500 (Internal Server Error)
+ {
+    "message": "Internal Server Error, Error Returned: <error>"
+ }
+```
+
+## Get a specific user (Protected)
 **HTTP Method:** *GET*
 
 **URL:** */users/:id*
 
-This gets a specific user and returns the user, profile and all trip data, each trip (1 user can have multiple trips) will have profile data and username attached it in case it is needed.
+Gets a specific user by id
+
+### Example
+
+None
+
+### Responses
+```
+Code: 200 (OK)
+ {
+     "id": 1,
+     "username": "nathansl2003"
+ }
+    
+Code: 401 (Unauthorized)
+ {
+    "message": "Unauthorized access"
+ }
+    
+Code: 500 (Internal Server Error)
+ {
+    "message": "Internal Server Error, Error Returned: <error>"
+ }
+```
+
+## Get Users Data (Protected)
+**HTTP Method:** *GET*
+
+**URL:** */users/data/:id*
+
+This gets a specific user and returns the user, profile and all trip data, each trip (1 user can have multiple trips) will have profile data and username attached it in case it is needed. It will return NULL on each key where data is not present.
 
 ### Example
 
